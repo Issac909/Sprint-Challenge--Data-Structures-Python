@@ -10,8 +10,8 @@ class RingBuffer:
         
         else:
             self.container[self.last_index] = item
-            self.last_index += 1
-            
+         
+        self.last_index += 1 
         self.last_index = self.last_index % self.capacity
 
     def get(self):
