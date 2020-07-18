@@ -1,5 +1,31 @@
 import time
+  
+class Node:
+    def __init__(self, value):
+        self.left = None
+        self.right = None
+        self.value = value
 
+    def insert(self, value):
+        if value < self.value:
+            if self.left:
+                self.left.insert(value)
+            else:
+                self.left = Node(value)
+        else:
+            if self.right:
+                self.right.insert(value)
+            else:
+                self.right = Node(value)
+
+    def contains(self, target):
+        if target == self.value:
+            return True
+        elif target < self.value and self.left:
+            return self.left.contains(target)
+        elif target > self.value and self.right:
+            return self.right.contains(target)  
+   
 start_time = time.time()
 
 f = open('names_1.txt', 'r')
@@ -16,7 +42,21 @@ duplicates = []  # Return the list of duplicates in this data structure
 for name_1 in names_1:
     for name_2 in names_2:
         if name_1 == name_2:
-            duplicates.append(name_1)
+            pass
+        
+bstNode = Node("")
+            
+# appending to duplicates | check both list of names and return only names that show up twice (MY PC: 6.2 seconds / No BST)     
+# [duplicates.append(name) for name in names_1 if name in names_2]
+
+# creating a BST for first list of names
+for name in names_1:
+    bstNode.insert(name)
+    
+# It will traverse and find duplicates (MY PC: 5.4 seconds / with BST)
+for name in names_2:
+    if bstNode.contains(name):
+        duplicates.append(name)
 
 end_time = time.time()
 print (f"{len(duplicates)} duplicates:\n\n{', '.join(duplicates)}\n\n")
